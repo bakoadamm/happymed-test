@@ -6,7 +6,8 @@
   "require": {
     "ext-pdo": "*",
     "illuminate/database": "^11.39",
-    "illuminate/events": "^11.39"
+    "illuminate/events": "^11.39",
+    "twig/twig": "^3.18"
   },
   "repositories": [],
   "autoload" : {

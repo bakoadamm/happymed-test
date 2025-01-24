@@ -2,6 +2,9 @@
 
 namespace Src;
 
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
 class Dispatcher {
 
     /**
@@ -14,6 +17,10 @@ class Dispatcher {
      */
     private $dbh;
 
+    private $loader;
+
+    private $twig;
+
     /**
      * Dispatcher constructor.
      * @param Router $router
@@ -21,10 +28,14 @@ class Dispatcher {
      */
     function __construct(
             Router $router,
-            IDatabase $dbh
+            IDatabase $dbh,
+            FilesystemLoader $loader,
+            Environment $twig
     ) {
         $this->router = $router;
         $this->dbh = $dbh;
+        $this->loader = $loader;
+        $this->twig = $twig;
     }
 
     /**
@@ -48,7 +59,7 @@ class Dispatcher {
             $controller = $handler[0][0];
             $method = $handler[0][1];
 
-            $ctrl = new $controller($this->dbh);
+            $ctrl = new $controller($this->dbh, $this->loader, $this->twig);
 
             $cleanedParams = [];
             foreach($params as $key => $param) {

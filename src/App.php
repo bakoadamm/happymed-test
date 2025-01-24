@@ -2,8 +2,6 @@
 
 namespace Src;
 
-use Exception;
-
 class App
 {
     private ServiceContainer $container;
