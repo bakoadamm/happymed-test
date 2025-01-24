@@ -23,7 +23,7 @@ class Router {
      * @param $handler
      * @return $this
      */
-    public function get($pattern, $handler): Router
+    public function get($pattern, $handler)
     {
         if($this->method === 'get') {
             $this->routes['get'][$pattern] = $handler;
