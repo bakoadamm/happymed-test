@@ -3,6 +3,7 @@
 {% extends '@templates/layouts/app.twig' %}
 
 {% block content %}
+
     <div class="overflow-x-auto">
         <table class="table">
             <thead>
@@ -17,7 +18,7 @@
             </thead>
             <tbody>
             {% for movie in movies %}
-            <tr class="bg-base-200">
+            <tr class="{% if movie.rentals is not empty %}bg-red-100{% endif %}">
                 <th>{{ movie.id }}</th>
                 <td>{{ movie.title }}</td>
                 <td>{{ movie.genre }}</td>
