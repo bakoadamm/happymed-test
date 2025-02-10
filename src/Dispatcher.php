@@ -3,22 +3,15 @@
 namespace Src;
 
 use Jenssegers\Blade\Blade;
-use Src\Database\Database;
 use Src\Database\IDatabase;
 
-class Dispatcher {
+class Dispatcher
+{
+    private Router $router;
 
-    /**
-     * @var Router
-     */
-    private $router;
+    private IDatabase $dbh;
 
-    /**
-     * @var Database
-     */
-    private $dbh;
-
-    private $blade;
+    private Blade $blade;
 
     public function __construct(
             Router $router,
@@ -30,8 +23,8 @@ class Dispatcher {
         $this->blade = $blade;
     }
 
-    public function handle(Request $request) {
-
+    public function handle(Request $request)
+    {
         $handler = $this->router->match($request);
 
         $params = $handler[1] ?? null;
@@ -67,7 +60,8 @@ class Dispatcher {
 
     }
 
-    private function notFound() {
+    private function notFound()
+    {
         echo '404';
     }
 }
