@@ -31,7 +31,7 @@ return [
     'dispatcher' => function(ServiceContainer $container) {
         $dispatcher = new Dispatcher(
             $container->get('router'),
-            $container->get('eloquent'),
+            $container->get(env('DB_ENGINE')),
             $container->get('blade')
         );
         $dispatcher->handle($container->get('request'));
