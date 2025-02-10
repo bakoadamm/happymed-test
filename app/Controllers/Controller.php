@@ -2,28 +2,24 @@
 
 namespace App\Controllers;
 
-use Src\IDatabase;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
+use Jenssegers\Blade\Blade;
+use Src\Database\IDatabase;
 
 abstract class Controller
 {
-    protected FilesystemLoader $loader;
-
-    protected Environment $twig;
+    protected Blade $blade;
 
     protected IDatabase $database;
 
-    public function __construct(IDatabase $database, FilesystemLoader $loader, Environment $twig)
+    public function __construct(IDatabase $database, Blade $blade)
     {
-        $this->loader   = $loader;
-        $this->twig     = $twig;
+        $this->blade = $blade;
         $this->database = $database;
     }
 
     protected function view($template, $data = [])
     {
-        echo ($this->twig->load("@templates/{$template}.twig"))->render($data);
+        echo $this->blade->make($template, $data)->render();
     }
 
 }

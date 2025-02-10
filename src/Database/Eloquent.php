@@ -1,20 +1,14 @@
 <?php
 
-
-namespace Src;
+namespace Src\Database;
 
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher as IlluminateDispatcher;
 
-class Eloquent implements IDatabase {
-
+class Eloquent implements IDatabase
+{
     private $capsule;
-
-    private $host = 'localhost';
-    private $user = 'root';
-    private $pass = '';
-    private $dbname = 'happymed';
 
     public function __construct()
     {
@@ -23,11 +17,11 @@ class Eloquent implements IDatabase {
         $this->capsule->setEventDispatcher(new IlluminateDispatcher(new Container));
         $this->capsule->bootEloquent();
         $this->capsule->addConnection([
-            'driver' => 'mysql',
-            'host' => $this->host,
-            'database' => $this->dbname,
-            'username' => $this->user,
-            'password' => $this->pass,
+            'driver' => env('DB_CONNECTION'),
+            'host' => env('DB_HOST'),
+            'database' => env('DB_DATABASE'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',

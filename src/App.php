@@ -13,7 +13,7 @@ class App
 
     public function run(): void
     {
-        $this->container->get('router');
+        $this->container->get('dotEnv');
         $this->container->get('dispatcher');
     }
 }

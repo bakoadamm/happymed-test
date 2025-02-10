@@ -2,10 +2,12 @@
 
 declare(strict_types=0);
 
+session_start();
+
 use Src\App;
 use Src\ServiceContainer;
 
-define('PROJECT_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
+const PROJECT_ROOT = __DIR__ . DIRECTORY_SEPARATOR;
 
 require_once(PROJECT_ROOT . 'vendor/autoload.php');
 

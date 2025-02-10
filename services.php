@@ -1,14 +1,20 @@
 <?php
 
-use Src\Database;
+use Dotenv\Dotenv;
+use Src\Database\Database;
+use Src\Database\Eloquent;
 use Src\Dispatcher;
-use Src\Eloquent;
 use Src\Request;
 use Src\Router;
 use Src\ServiceContainer;
-use Twig\Loader\FilesystemLoader;
+use Jenssegers\Blade\Blade;
+use Src\Validation;
 
 return [
+
+    'dotEnv' => function() {
+        (Dotenv::createUnsafeImmutable(PROJECT_ROOT))->load();
+    },
 
     'database' => function() {
         return new Database();
@@ -18,12 +24,15 @@ return [
         return new Eloquent();
     },
 
+    'blade' => function() {
+        return new Blade('resources/views', 'storage/cache');
+    },
+
     'dispatcher' => function(ServiceContainer $container) {
         $dispatcher = new Dispatcher(
             $container->get('router'),
             $container->get('eloquent'),
-            $container->get('twigLoader'),
-            $container->get('twig')
+            $container->get('blade')
         );
         $dispatcher->handle($container->get('request'));
         return $dispatcher;
@@ -31,7 +40,7 @@ return [
 
     'router' => function() {
         $router = new Router();
-        require_once PROJECT_ROOT . 'routes.php';
+        require_once PROJECT_ROOT . 'routes/routes.php';
         return $router;
     },
 
@@ -42,19 +51,7 @@ return [
         );
     },
 
-    'twigLoader' => function() {
-        $loader = new FilesystemLoader('resources/views');
-        $loader->addPath('resources/views','templates');
-        return $loader;
-    },
-
-    'twig' => function(ServiceContainer $container) {
-        $twig = new \Twig\Environment($container->get('twigLoader'), [
-            'debug' => true,
-            'autoescape' => false
-        ]);
-        $twig->addExtension(new \Twig\Extension\DebugExtension());
-
-        return $twig;
-    },
+    'validation' => function() {
+        return new Validation();
+    }
 ];

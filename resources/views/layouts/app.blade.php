@@ -1,16 +1,10 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <html lang="hu">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>{% block title %}{% endblock %}</title>
+    <title>@yield('title')</title>
     <meta name="description" content="">
-{#    <link rel="icon" href="/assets/img/favicon.ico" type="image/gif" sizes="48x48">#}
-
     <meta property="og:site_name" content="" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="" />
@@ -32,8 +26,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-
-{% block content %}{% endblock %}
-
+@yield('content')
 </body>
 </html>

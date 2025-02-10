@@ -8,7 +8,7 @@ class Request
 
     private string $path;
 
-    private string|null $body;
+    private string|null|object $body;
 
     private array|false|string $headers;
 
@@ -54,7 +54,7 @@ class Request
 
         $this->body = json_decode(file_get_contents('php://input'));
 
-        if ($this->body !== null || $this->body !== '') {
+        if ($this->body !== null && $this->body !== '') {
             return false;
         }
 

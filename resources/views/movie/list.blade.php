@@ -1,9 +1,6 @@
-{% block title %}Filmek{% endblock %}
-
-{% extends '@templates/layouts/app.twig' %}
-
-{% block content %}
-
+@extends('layouts.app')
+@section('title', 'Filmek')
+@section('content')
     <div class="overflow-x-auto">
         <table class="table">
             <thead>
@@ -17,26 +14,26 @@
             </tr>
             </thead>
             <tbody>
-            {% for movie in movies %}
-            <tr class="{% if movie.rentals is not empty %}bg-red-100{% endif %}">
-                <th>{{ movie.id }}</th>
-                <td>{{ movie.title }}</td>
-                <td>{{ movie.genre }}</td>
-                <td>{{ movie.release_year }}</td>
-                <td>{{ movie.rating }}</td>
+            @foreach($movies as $movie)
+            <tr class="@if($movie->rentals->isNotEmpty()) bg-red-100 @endif">
+                <th>{{ $movie->id }}</th>
+                <td>{{ $movie->title }}</td>
+                <td>{{ $movie->genre }}</td>
+                <td>{{ $movie->release_year }}</td>
+                <td>{{ $movie->rating }}</td>
                 <td>
-                    <button class="btn" onclick="my_modal_{{ movie.id }}.showModal()">
+                    <button class="btn" onclick="my_modal_{{ $movie->id }}.showModal()">
                         Foglalás
                     </button>
                 </td>
             </tr>
-            <dialog id="my_modal_{{ movie.id }}" class="modal">
+            <dialog id="my_modal_{{ $movie->id }}" class="modal">
                 <div class="modal-box">
-                    <h3 class="text-lg font-bold">{{ movie.title }}</h3>
+                    <h3 class="text-lg font-bold">{{ $movie->title }}</h3>
                     <p class="py-4">Biztosan lefoglalod a filmet?</p>
                     <div class="modal-action">
                         <form action="/rent" method="post">
-                            <input type="hidden" name="movie_id" value="{{ movie.id }}">
+                            <input type="hidden" name="movie_id" value="{{ $movie->id }}">
                             <input class="input input-bordered w-full max-w-xs" type="text" name="customer_name" placeholder="Neved">
                             <button type="submit" class="btn">Foglalás</button>
                         </form>
@@ -46,8 +43,8 @@
                     </div>
                 </div>
             </dialog>
-            {% endfor %}
+            @endforeach
             </tbody>
         </table>
     </div>
-{% endblock %}
+@stop

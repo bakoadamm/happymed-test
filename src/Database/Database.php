@@ -1,36 +1,33 @@
 <?php
 
-namespace Src;
+namespace Src\Database;
 
 use PDO;
 use PDOException;
 
 class Database implements IDatabase {
 
-    private $host = 'localhost';
-    private $user = 'root';
-    private $pass = '';
-    private $dbname = 'happymed';
-
     private $dbh;
     private $error;
     private $stmt;
 
-    public function __construct() {
-        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
-        $options = array(
+    public function __construct()
+    {
+        $dsn = 'mysql:host=' . env('DB_HOST') . ';dbname=' . env('DB_DATABASE');
+        $options = [
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_EMULATE_PREPARES => false,
             PDO::ATTR_STRINGIFY_FETCHES => false,
             PDO::ATTR_DEFAULT_FETCH_MODE => true,
             PDO::ATTR_PREFETCH => true
-        );
+        ];
 
         try {
-            $this->dbh = new PDO ($dsn, $this->user, $this->pass, $options);
+            $this->dbh = new PDO ($dsn, env('DB_USERNAME'), env('DB_PASSWORD'), $options);
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
+            echo $this->error;
         }
     }
 

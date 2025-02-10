@@ -1,13 +1,16 @@
 {
-  "name": "maviz/vote",
+  "name": "happymed/test",
   "license": "proprietary",
-  "description": "vote system",
+  "description": "test",
   "type": "project",
   "require": {
     "ext-pdo": "*",
     "illuminate/database": "^11.39",
     "illuminate/events": "^11.39",
-    "twig/twig": "^3.18"
+    "jenssegers/blade": "^2.0",
+    "illuminate/view": "11.7.0",
+    "vlucas/phpdotenv": "^5.6",
+    "wanfeiyy/dd": "^1.0"
   },
   "repositories": [],
   "autoload" : {

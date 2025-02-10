@@ -4,23 +4,24 @@ namespace App\Controllers;
 
 use App\Models\Movie;
 use App\Models\Rental;
-use Src\IDatabase;
+use Jenssegers\Blade\Blade;
+use Src\Database\IDatabase;
 use Src\Request;
 
 class MovieController extends Controller
 {
-    public function __construct(IDatabase $dbh, $loader, $twig) {
-        parent::__construct($dbh, $loader, $twig);
+    public function __construct(IDatabase $dbh, Blade $blade) {
+        parent::__construct($dbh, $blade);
     }
     public function index()
     {
-        $this->view('movie/list', ['movies' => Movie::with('rentals')->get()]);
+        $this->view('movie.list', ['movies' => Movie::with('rentals')->get()]);
     }
 
     public function rent(Request $request, $params)
     {
-        $movieId = htmlspecialchars($_POST['movie_id']);
-        $customerName = htmlspecialchars($_POST['customer_name']);
+        $movieId = htmlspecialchars($request->get('movie_id'));
+        $customerName = htmlspecialchars($request->get('customer_name'));
 
         $isExist = Rental::where('movie_id', $movieId)->first();
 

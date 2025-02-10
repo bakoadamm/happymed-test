@@ -2,8 +2,9 @@
 
 namespace Src;
 
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
+use Jenssegers\Blade\Blade;
+use Src\Database\Database;
+use Src\Database\IDatabase;
 
 class Dispatcher {
 
@@ -17,31 +18,19 @@ class Dispatcher {
      */
     private $dbh;
 
-    private $loader;
+    private $blade;
 
-    private $twig;
-
-    /**
-     * Dispatcher constructor.
-     * @param Router $router
-     * @param IDatabase $dbh
-     */
-    function __construct(
+    public function __construct(
             Router $router,
             IDatabase $dbh,
-            FilesystemLoader $loader,
-            Environment $twig
+            Blade $blade
     ) {
         $this->router = $router;
         $this->dbh = $dbh;
-        $this->loader = $loader;
-        $this->twig = $twig;
+        $this->blade = $blade;
     }
 
-    /**
-     * @param Request $request
-     */
-    function handle(Request $request) {
+    public function handle(Request $request) {
 
         $handler = $this->router->match($request);
 
@@ -59,7 +48,7 @@ class Dispatcher {
             $controller = $handler[0][0];
             $method = $handler[0][1];
 
-            $ctrl = new $controller($this->dbh, $this->loader, $this->twig);
+            $ctrl = new $controller($this->dbh, $this->blade);
 
             $cleanedParams = [];
             foreach($params as $key => $param) {
